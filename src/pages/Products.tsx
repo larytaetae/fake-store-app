@@ -1,52 +1,142 @@
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, 
-         TableHead, TableRow, Button } from '@mui/material';
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Avatar,
+  Typography,
+  Box,
+  Button,
+  Chip,
+  TablePagination,
+  Paper,
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Layout from '../components/Layout';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   id: number;
-  name: string;
+  title: string;
   price: number;
   image: string;
 }
 
-const products: Product[] = [
-  { id: 1, name: "Produto A", price: 59.90, image: "https://via.placeholder.com/50" },
-  { id: 2, name: "Produto B", price: 120.00, image: "https://via.placeholder.com/50" },
-  // ... outros produtos
-];
+export default function Products() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const navigate = useNavigate();
 
-const ProductsList = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    axios
+      .get('https://fakestoreapi.com/products', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setProducts(res.data));
+  }, []);
+
+  const getStatus = (id: number) => {
+    const statuses = ['shipped', 'completed', 'processing'];
+    return statuses[id % statuses.length];
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'success';
+      case 'processing':
+        return 'info';
+      case 'shipped':
+      default:
+        return 'error';
+    }
+  };
+
+  const getRandomDate = (id: number) => {
+    const base = new Date(2023, 0, 1);
+    base.setDate(base.getDate() + id);
+    return base.toLocaleDateString('pt-BR');
+  };
+
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <TableContainer component={Paper} elevation={3}>
-        <Table aria-label="product table">
+    <Layout>
+      <Box
+        sx={{
+          maxWidth: '95%',
+          margin: '0 auto',
+          backgroundColor: '#fff',
+          borderRadius: 2,
+          p: 3,
+          boxShadow: 3,
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
+          Lista de Produtos
+        </Typography>
+
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>Imagem</TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Preço</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Criado em</TableCell>
               <TableCell>Ação</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((prod) => (
-              <TableRow key={prod.id}>
-                <TableCell>
-                  <img src={prod.image} alt={prod.name} width="50" />
-                </TableCell>
-                <TableCell>{prod.name}</TableCell>
-                <TableCell>
-                  {prod.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                </TableCell>
-                <TableCell>
-                  <Button variant="contained" color="primary">
-                    Detalhes
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {products
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((product) => {
+                const status = getStatus(product.id);
+                const color = getStatusColor(status);
+                const date = getRandomDate(product.id);
+
+                return (
+                  <TableRow key={product.id}>
+                    <TableCell>
+                      <Avatar src={product.image} variant="square" />
+                    </TableCell>
+                    <TableCell>{product.title}</TableCell>
+                    <TableCell>R$ {product.price.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <Chip label={status} color={color as any} size="small" />
+                    </TableCell>
+                    <TableCell>{date}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => navigate(`/products/${product.id}`)}
+                      >
+                        DETALHES
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
-      </TableContainer>
-    </Container>
+
+        <TablePagination
+          component="div"
+          count={products.length}
+          page={page}
+          onPageChange={(_, newPage) => setPage(newPage)}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={(e) => {
+            setRowsPerPage(parseInt(e.target.value, 10));
+            setPage(0);
+          }}
+          rowsPerPageOptions={[10]}
+          labelRowsPerPage="Produtos por página"
+        />
+      </Box>
+    </Layout>
   );
-};
+}

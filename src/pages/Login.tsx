@@ -1,72 +1,83 @@
-import React, { useState } from 'react';
-import { Container, Box, Paper, Typography, TextField, Button } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState('mor_2314'); // valor de teste
+  const [password, setPassword] = useState('83r5^_');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async () => {
     setLoading(true);
     setError('');
-
-    try {
-      const response = await axios.post('https://fakestoreapi.com/auth/login', {
-        username,
-        password,
-      });
-      const { token } = response.data;
-      localStorage.setItem('token', token);
+    const success = await login(username, password);
+    if (success) {
       navigate('/products');
-    } catch (error) {
-      setError('Login falhou. Verifique suas credenciais.');
-    } finally {
-      setLoading(false);
+    } else {
+      setError('Usuário ou senha inválido');
     }
+    setLoading(false);
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-        <Paper elevation={3} sx={{ padding: 4, width: '100%', maxWidth: 400 }}>
-          <Typography variant="h5" gutterBottom textAlign="center">
-            Sign in
+    <Box
+      sx={{
+        minHeight: '100vh',
+        width: '100vw',
+        background: 'linear-gradient(to bottom right, #dbeafe, #93c5fd)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Paper elevation={4} sx={{ padding: 4, width: 350, borderRadius: 3 }}>
+        <Typography variant="h5" align="center" mb={3}>
+          Login - ReactShop
+        </Typography>
+
+        <TextField
+          fullWidth
+          label="Usuário"
+          variant="outlined"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          label="Senha"
+          type="password"
+          variant="outlined"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{ mb: 3 }}
+        />
+
+        {error && (
+          <Typography color="error" fontSize="0.875rem" mb={2}>
+            {error}
           </Typography>
-          <TextField
-            label="Username"
-            fullWidth
-            margin="normal"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ mt: 2 }}
-            onClick={handleLogin}
-            disabled={loading || !username || !password}
-          >
-            {loading ? 'Carregando...' : 'Login'}
-          </Button>
-          {error && (
-            <Typography color="error" sx={{ mt: 2, textAlign: 'center' }}>
-              {error}
-            </Typography>
-          )}
-        </Paper>
-      </Box>
-    </Container>
+        )}
+
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{
+            backgroundColor: '#1e3a8a',
+            '&:hover': { backgroundColor: '#1e40af' },
+            borderRadius: '20px',
+            paddingY: 1,
+          }}
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          Entrar
+        </Button>
+      </Paper>
+    </Box>
   );
 }

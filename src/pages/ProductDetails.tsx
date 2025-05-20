@@ -1,68 +1,92 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button } from '@mui/material';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  CircularProgress
+} from '@mui/material';
+import axios from 'axios';
+import Layout from '../components/Layout';
 
 interface Product {
   id: number;
   title: string;
   price: number;
   description: string;
+  category: string;
   image: string;
-  // você pode adicionar mais campos da API se quiser
 }
 
 export default function ProductDetails() {
-  const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/');
-      return;
-    }
-
-    const fetchProduct = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const response = await axios.get<Product>(`https://fakestoreapi.com/products/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setProduct(response.data);
-      } catch (err) {
-        setError('Erro ao carregar detalhes do produto.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
+    axios
+      .get(`https://fakestoreapi.com/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setProduct(res.data))
+      .catch(() => navigate('/products'));
   }, [id, navigate]);
 
+  if (!product) {
+    return (
+      <Layout>
+        <Box display="flex" justifyContent="center" mt={5}>
+          <CircularProgress />
+        </Box>
+      </Layout>
+    );
+  }
+
   return (
-    <Container sx={{ mt: 4 }}>
-      <Button variant="outlined" onClick={() => navigate('/products')} sx={{ mb: 2 }}>
-        Voltar
-      </Button>
-      {loading && <Typography>Carregando detalhes...</Typography>}
-      {error && <Typography color="error">{error}</Typography>}
-      {product && (
-        <>
-          <Typography variant="h4" gutterBottom>
-            {product.title}
-          </Typography>
-          <img src={product.image} alt={product.title} width={150} />
-          <Typography variant="h5" gutterBottom>
-            R$ {product.price}
-          </Typography>
-          <Typography>{product.description}</Typography>
-        </>
-      )}
-    </Container>
+    <Layout>
+      <Box display="flex" justifyContent="center" mt={5}>
+        <Card sx={{ maxWidth: 600, width: '100%', p: 2 }}>
+          <CardMedia
+            component="img"
+            image={product.image}
+            alt={product.title}
+            sx={{ height: 300, objectFit: 'contain' }}
+          />
+          <CardContent>
+            <Typography variant="h5" fontWeight="bold" mb={2}>
+              Detalhes do Produto
+            </Typography>
+
+            <Typography variant="h6" gutterBottom>
+              {product.title}
+            </Typography>
+
+            <Typography variant="body1" color="text.secondary" gutterBottom>
+              {product.description}
+            </Typography>
+
+            <Typography variant="subtitle1" fontWeight="bold" mb={2}>
+              R$ {product.price.toFixed(2)}
+            </Typography>
+
+            <Button
+              variant="contained"
+              onClick={() => navigate('/products')}
+              sx={{
+                backgroundColor: '#1e3a8a',
+                '&:hover': { backgroundColor: '#1e40af' },
+                borderRadius: '20px',
+              }}
+            >
+              Voltar
+            </Button>
+          </CardContent>
+        </Card>
+      </Box>
+    </Layout>
   );
 }
