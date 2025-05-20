@@ -32,7 +32,7 @@ Projeto frontend em React + TypeScript utilizando autenticação com JWT, integr
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/reactshop.git
+git clone https://github.com/larytaetae/fake-store-app
 
 # 2. Acesse a pasta do projeto
 cd reactshop
