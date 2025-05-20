@@ -66,7 +66,8 @@ export default function Products() {
     <Layout>
       <Box
         sx={{
-          maxWidth: '95%',
+          width: '100%',
+          maxWidth: '1400px',
           margin: '0 auto',
           backgroundColor: '#fff',
           borderRadius: 2,

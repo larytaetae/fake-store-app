@@ -1,54 +1,66 @@
-# React + TypeScript + Vite
+# 🛒 ReactShop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projeto frontend em React + TypeScript utilizando autenticação com JWT, integração com a Fake Store API e interface moderna com Material UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✅ Funcionalidades
 
-## Expanding the ESLint configuration
+- Login com JWT (Fake Store API)
+- Rotas protegidas
+- Lista de produtos com imagem, nome, preço, status e data
+- Página de detalhes do produto
+- Botão de logout funcional
+- Estilo moderno com fundo azul claro e botões azul escuro
+- Paginação com 10 produtos por página
+- Persistência de autenticação (mesmo após recarregar)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🚀 Tecnologias utilizadas
+
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Material UI](https://mui.com/)
+- [Axios](https://axios-http.com/)
+- [React Router DOM](https://reactrouter.com/)
+
+---
+
+## 🧪 Como executar o projeto
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/reactshop.git
+
+# 2. Acesse a pasta do projeto
+cd reactshop
+
+# 3. Instale as dependências
+npm install
+
+# 4. Inicie o servidor de desenvolvimento
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Acesse no navegador: [http://localhost:5173](http://localhost:5173)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## 🔐 Login de teste
+
+Você pode utilizar as seguintes credenciais de teste:
+
+```bash
+Usuário: mor_2314
+Senha: 83r5^_
 ```
+
+---
+
+## 📡 Endpoints usados (Fake Store API)
+
+- `POST https://fakestoreapi.com/auth/login` → login com JWT
+- `GET https://fakestoreapi.com/products` → lista de produtos
+- `GET https://fakestoreapi.com/products/:id` → detalhes do produto
