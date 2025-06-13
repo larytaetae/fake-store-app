@@ -1,66 +1,83 @@
-# 🛒 ReactShop
+# 📂 ClickCart – Fake Store PWA
 
-Projeto frontend em React + TypeScript utilizando autenticação com JWT, integração com a Fake Store API e interface moderna com Material UI.
+ClickCart é uma aplicação web responsiva (PWA - Progressive Web App) construída em **React + TypeScript + Vite**, que simula uma loja virtual integrada à [Fake Store API](https://fakestoreapi.com/). O projeto possui autenticação com JWT, layout mobile-first, navegação SPA com React Router, modo offline e integração com Material UI.
+
+## 🚀 Funcionalidades
+
+- ✅ Login com autenticação JWT
+- 📦 Listagem de produtos com paginação
+- 🔍 Detalhamento individual do produto
+- 📱 Layout mobile-first com suporte PWA (modo offline parcial)
+- 🔐 Rotas protegidas
+- 🧾 Tabela com status e datas fictícias
+- 🎨 Interface estilizada com Material UI
+
+## 📲 Acesso no celular
+
+Para acessar a aplicação no celular via rede local (durante preview):
+
+1. Descubra seu IP local:
+   ```bash
+   ipconfig # copie o IPv4 (ex: 192.168.0.105)
+   ```
+2. Rode o projeto com:
+   ```bash
+   npm run build
+   npx vite preview --host
+   ```
+3. No celular, acesse:
+   ```
+   http://SEU_IP_LOCAL:4173
+   ```
 
 ---
 
-## ✅ Funcionalidades
+## 🦚 Como rodar localmente
 
-- Login com JWT (Fake Store API)
-- Rotas protegidas
-- Lista de produtos com imagem, nome, preço, status e data
-- Página de detalhes do produto
-- Botão de logout funcional
-- Estilo moderno com fundo azul claro e botões azul escuro
-- Paginação com 10 produtos por página
-- Persistência de autenticação (mesmo após recarregar)
+```bash
+# Clone o repositório
+git clone https://github.com/larytaetae/fake-store-app.git
+cd fake-store-app
+
+# Instale as dependências
+npm install
+
+# Rode em modo desenvolvimento
+npm run dev
+```
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## 🔐 Credenciais de Teste
+
+Você pode usar as seguintes credenciais da Fake Store API para login:
+
+- **Usuário:** `mor_2314`
+- **Senha:** `83r5^_`
+
+---
+
+## 📦 Tecnologias Utilizadas
 
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vitejs.dev/)
 - [Material UI](https://mui.com/)
-- [Axios](https://axios-http.com/)
+- [Fake Store API](https://fakestoreapi.com/)
 - [React Router DOM](https://reactrouter.com/)
+- [Axios](https://axios-http.com/)
+- [PWA com Vite](https://vite-plugin-pwa.netlify.app/)
 
 ---
 
-## 🧪 Como executar o projeto
+## ✍️ Autor
 
-```bash
-# 1. Clone o repositório
-git clone https://github.com/larytaetae/fake-store-app
-
-# 2. Acesse a pasta do projeto
-cd reactshop
-
-# 3. Instale as dependências
-npm install
-
-# 4. Inicie o servidor de desenvolvimento
-npm run dev
-```
-
-Acesse no navegador: [http://localhost:5173](http://localhost:5173)
+Feito por [Laryssa Rodrigues Cano](https://github.com/larytaetae) 👩‍💻  
+           Diego Batista Dos Santos
+Centro Universitário do Norte de São Paulo – ADS 🎓
 
 ---
 
-## 🔐 Login de teste
+## 📄 Licença
 
-Você pode utilizar as seguintes credenciais de teste:
-
-```bash
-Usuário: mor_2314
-Senha: 83r5^_
-```
-
----
-
-## 📡 Endpoints usados (Fake Store API)
-
-- `POST https://fakestoreapi.com/auth/login` → login com JWT
-- `GET https://fakestoreapi.com/products` → lista de produtos
-- `GET https://fakestoreapi.com/products/:id` → detalhes do produto
+Este projeto é open-source e está licenciado sob a [MIT License](LICENSE).
