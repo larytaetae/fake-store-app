@@ -72,8 +72,8 @@ Você pode usar as seguintes credenciais da Fake Store API para login:
 
 ## ✍️ Autor
 
-Feito por [Laryssa Rodrigues Cano](https://github.com/larytaetae) 👩‍💻  
-           Diego Batista Dos Santos
+Feito por [Larissa Rodrigues Cano](https://github.com/larytaetae) 👩‍💻  
+          [Diego Batista Dos Santos]
 Centro Universitário do Norte de São Paulo – ADS 🎓
 
 ---
