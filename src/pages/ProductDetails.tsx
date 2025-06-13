@@ -48,41 +48,74 @@ export default function ProductDetails() {
 
   return (
     <Layout>
-      <Box display="flex" justifyContent="center" mt={5}>
-        <Card sx={{ maxWidth: 600, width: '100%', p: 2 }}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        mt={5}
+        px={2}
+      >
+        <Card
+          sx={{
+            maxWidth: 500,
+            width: '100%',
+            p: 2,
+            borderRadius: 3,
+            boxShadow: 4,
+            backgroundColor: '#ffffff',
+          }}
+        >
           <CardMedia
             component="img"
             image={product.image}
             alt={product.title}
-            sx={{ height: 300, objectFit: 'contain' }}
+            sx={{
+              height: { xs: 250, sm: 300 },
+              objectFit: 'contain',
+              mb: 2,
+            }}
           />
           <CardContent>
-            <Typography variant="h5" fontWeight="bold" mb={2}>
-              Detalhes do Produto
-            </Typography>
-
-            <Typography variant="h6" gutterBottom>
+            <Typography
+              variant="h5"
+              fontWeight={600}
+              mb={2}
+              textAlign="center"
+            >
               {product.title}
             </Typography>
 
-            <Typography variant="body1" color="text.secondary" gutterBottom>
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              mb={2}
+              sx={{ textAlign: 'justify' }}
+            >
               {product.description}
             </Typography>
 
-            <Typography variant="subtitle1" fontWeight="bold" mb={2}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              color="primary"
+              mb={3}
+              textAlign="center"
+            >
               R$ {product.price.toFixed(2)}
             </Typography>
 
             <Button
               variant="contained"
+              fullWidth
               onClick={() => navigate('/products')}
               sx={{
                 backgroundColor: '#1e3a8a',
                 '&:hover': { backgroundColor: '#1e40af' },
-                borderRadius: '20px',
+                borderRadius: '25px',
+                py: 1,
               }}
             >
-              Voltar
+              Voltar para Produtos
             </Button>
           </CardContent>
         </Card>

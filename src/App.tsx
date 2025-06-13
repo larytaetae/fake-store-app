@@ -1,6 +1,5 @@
-import React from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import { CssBaseline, Container } from '@mui/material';
+import { CssBaseline, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import Login from './pages/Login';
@@ -9,15 +8,20 @@ import ProductDetails from './pages/ProductDetails';
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#1976d2' },
-    secondary: { main: '#9c27b0' },
-  },
+    mode: 'light',
+    background: {
+      default: '#e0f2ff'
+    },
+    primary: {
+      main: '#1e3a8a'
+    }
+  }
 });
 
 const AppLayout = () => (
-  <Container>
+  <Box sx={{ width: '100%', px: 2 }}>
     <Outlet />
-  </Container>
+  </Box>
 );
 
 const router = createBrowserRouter([

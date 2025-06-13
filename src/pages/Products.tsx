@@ -9,8 +9,7 @@ import {
   Box,
   Button,
   Chip,
-  TablePagination,
-  Paper,
+  TablePagination
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -71,7 +70,7 @@ export default function Products() {
           margin: '0 auto',
           backgroundColor: '#fff',
           borderRadius: 2,
-          p: 3,
+          p: { xs: 2, sm: 3 },
           boxShadow: 3,
         }}
       >
@@ -101,9 +100,13 @@ export default function Products() {
                 return (
                   <TableRow key={product.id}>
                     <TableCell>
-                      <Avatar src={product.image} variant="square" />
+                      <Avatar
+                        src={product.image}
+                        variant="square"
+                        sx={{ width: 56, height: 56 }}
+                      />
                     </TableCell>
-                    <TableCell>{product.title}</TableCell>
+                    <TableCell sx={{ maxWidth: 200 }}>{product.title}</TableCell>
                     <TableCell>R$ {product.price.toFixed(2)}</TableCell>
                     <TableCell>
                       <Chip label={status} color={color as any} size="small" />
@@ -113,9 +116,16 @@ export default function Products() {
                       <Button
                         variant="contained"
                         size="small"
+                        sx={{
+                          backgroundColor: '#1e3a8a',
+                          '&:hover': { backgroundColor: '#1e40af' },
+                          borderRadius: '12px',
+                          px: 2,
+                          py: 0.5
+                        }}
                         onClick={() => navigate(`/products/${product.id}`)}
                       >
-                        DETALHES
+                        Detalhes
                       </Button>
                     </TableCell>
                   </TableRow>

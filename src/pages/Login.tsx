@@ -4,7 +4,7 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
-  const [username, setUsername] = useState('mor_2314'); // valor de teste
+  const [username, setUsername] = useState('mor_2314');
   const [password, setPassword] = useState('83r5^_');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,11 +32,24 @@ export default function Login() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        px: 2,
       }}
     >
-      <Paper elevation={4} sx={{ padding: 4, width: 350, borderRadius: 3 }}>
-        <Typography variant="h5" align="center" mb={3}>
-          Login - ReactShop
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          width: '100%',
+          maxWidth: 400,
+          borderRadius: 3,
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h4" fontWeight={600} gutterBottom>
+          ClickCart
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          Bem-vindo! Faça seu login para continuar.
         </Typography>
 
         <TextField
@@ -66,16 +79,18 @@ export default function Login() {
         <Button
           variant="contained"
           fullWidth
+          onClick={handleLogin}
+          disabled={loading}
           sx={{
             backgroundColor: '#1e3a8a',
             '&:hover': { backgroundColor: '#1e40af' },
-            borderRadius: '20px',
-            paddingY: 1,
+            borderRadius: '25px',
+            py: 1,
+            fontWeight: 600,
+            fontSize: '1rem',
           }}
-          onClick={handleLogin}
-          disabled={loading}
         >
-          Entrar
+          {loading ? 'Entrando...' : 'Entrar'}
         </Button>
       </Paper>
     </Box>

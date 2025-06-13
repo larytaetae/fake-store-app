@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 
 interface AuthContextType {
   login: (username: string, password: string) => Promise<boolean>;
@@ -12,10 +13,10 @@ export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // ✅ Mantém o usuário logado após atualizar a página
+  // ✅ Checa token local ao carregar a aplicação
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -23,21 +24,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = async (username: string, password: string): Promise<boolean> => {
     try {
       const response = await fetch('https://fakestoreapi.com/auth/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },
       });
+
       const data = await response.json();
-      if (data.token) {
+
+      if (response.ok && data.token) {
         localStorage.setItem('token', data.token);
         setIsAuthenticated(true);
         return true;
       }
+
       return false;
-    } catch (err) {
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
       return false;
     }
   };
@@ -45,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
-    window.location.href = '/'; // Redireciona para a tela de login
+    window.location.href = '/'; // Redireciona para o login
   };
 
   return (
